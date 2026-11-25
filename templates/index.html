@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Pneumonia Detection{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body p-4">
+        <h1 class="display-6 fw-bold">Chest X-Ray Pneumonia Detection</h1>
+        <p class="lead">Deep learning models that classify chest X-ray images as <strong>NORMAL</strong> or <strong>PNEUMONIA</strong>.</p>
+        <p>This is an educational machine-learning project. It uses real chest X-ray images and trained CNN models to explore how convolutional neural networks and transfer learning can be applied to medical imaging.</p>
+        <div class="d-flex gap-2 flex-wrap">
+          <a class="btn btn-primary" href="{{ url_for('predict') }}">&#128657; Predict an X-Ray</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('comparison') }}">Model Comparison</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('dataset') }}">Dataset Info</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-body">
+        <h5 class="card-title">Dataset Statistics</h5>
+        <p class="text-muted small">Chest X-Ray images (Pneumonia), counts from the dataset folder.</p>
+        <table class="table table-sm table-borderless">
+          <tr><td>Training images</td><td class="text-end"><strong>{{ splits.get('train', {}).get('total', 0) }}</strong></td></tr>
+          <tr><td>Validation images</td><td class="text-end"><strong>{{ splits.get('val', {}).get('total', 0) }}</strong></td></tr>
+          <tr><td>Test images</td><td class="text-end"><strong>{{ splits.get('test', {}).get('total', 0) }}</strong></td></tr>
+          <tr class="table-light"><td>Total images</td><td class="text-end"><strong>{{ splits.get('train', {}).get('total', 0) + splits.get('val', {}).get('total', 0) + splits.get('test', {}).get('total', 0) }}</strong></td></tr>
+          <tr><td>Class: NORMAL</td><td class="text-end"><strong>{{ splits.get('train', {}).get('counts', {}).get('NORMAL', 0) }}</strong></td></tr>
+          <tr><td>Class: PNEUMONIA</td><td class="text-end"><strong>{{ splits.get('train', {}).get('counts', {}).get('PNEUMONIA', 0) }}</strong></td></tr>
+        </table>
+        <a class="btn btn-sm btn-outline-primary" href="{{ url_for('dataset') }}">View dataset details</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-body">
+        <h5 class="card-title">Trained Models</h5>
+        <p class="text-muted small">Models currently available on this installation.</p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between {% if not models.get('cnn') %}text-danger{% endif %}">
+            <span>Custom CNN</span><span class="badge {% if models.get('cnn') %}bg-success{% else %}bg-danger{% endif %}">{% if models.get('cnn') %}Available{% else %}Not trained{% endif %}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between {% if not models.get('mobilenetv2') %}text-danger{% endif %}">
+            <span>MobileNetV2 (Transfer)</span><span class="badge {% if models.get('mobilenetv2') %}bg-success{% else %}bg-danger{% endif %}">{% if models.get('mobilenetv2') %}Available{% else %}Not trained{% endif %}</span>
+          </li>
+        </ul>
+        <p class="text-muted small">Recommended model: <strong>{{ recommended_model }}</strong></p>
+        <a class="btn btn-sm btn-outline-primary" href="{{ url_for('predict') }}">Open predictor</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body">
+        <h5 class="card-title">Last Recorded Evaluation Metrics</h5>
+        {% if evaluation.get('models') %}
+          <div class="row g-3">
+            {% for mname, m in evaluation.get('models', {}).items() %}
+              <div class="col-md-6">
+                <h6 class="fw-bold">{{ mname }}</h6>
+                <p class="mb-1">Accuracy: <strong>{{ m.get('accuracy') }}</strong></p>
+                <p class="mb-1">F1-score: <strong>{{ m.get('f1') }}</strong></p>
+                <p class="mb-1">ROC AUC: <strong>{{ m.get('roc_auc') }}</strong></p>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-muted">No evaluation results have been recorded yet. Train and evaluate a model to see metrics here.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

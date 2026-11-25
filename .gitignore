@@ -1,0 +1,31 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Large data and trained models (not committed)
+dataset/train/
+dataset/val/
+dataset/test/
+dataset/test_data/*
+!dataset/test_data/.gitkeep
+models/*.keras
+results/*
+!results/.gitkeep
+
+# Flask
+temp_uploads/
+
+# Logs
+logs/
+
+# Docs build
+docs/_build/
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}About - Pneumonia Detection{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body p-4">
+        <h4>What is pneumonia?</h4>
+        <p>Pneumonia is an infection that inflames the air sacs in one or both lungs, which may fill with fluid or pus. It can cause cough, fever, chills and difficulty breathing. Chest X-rays are commonly used to help identify signs of pneumonia.</p>
+
+        <h4>Why use chest X-rays?</h4>
+        <p>Chest X-rays provide a quick, widely available view of the lungs and are commonly used in screening and follow-up. In this educational project they are used as the input images for the CNN models.</p>
+
+        <h4>What does a CNN do?</h4>
+        <p>A convolutional neural network learns visual features from images automatically by applying convolution, activation, pooling and dense layers, ending in a binary output (normal vs. pneumonia).</p>
+
+        <h4>What is transfer learning?</h4>
+        <p>Transfer learning reuses a model pretrained on a large dataset (here ImageNet via MobileNetV2) and fine-tunes it on the chest X-ray dataset.</p>
+
+        <h4>How is MobileNetV2 used?</h4>
+        <p>MobileNetV2 is pretrained on ImageNet; its classification head is removed, global average pooling and a small dense classifier are added, and the new head is trained on chest X-rays. Optionally the top backbone layers are fine-tuned.</p>
+
+        <h4>Limitations</h4>
+        <ul>
+          <li>Small dataset; models may overfit.</li>
+          <li>Images are chest X-rays only; no clinical metadata.</li>
+          <li>Model confidence is not clinical certainty.</li>
+          <li>Intended for academic education only, not medical diagnosis.</li>
+        </ul>
+
+        <div class="alert alert-warning mt-4">
+          <strong>Medical disclaimer:</strong> This application is for educational and academic research purposes only. It is not a medical device and must not be used to make treatment decisions. Always consult a qualified healthcare professional.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+/* Soft blue medical theme for Pneumonia Detection */
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f7fafd;
+  color: #1f2937;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.dropzone {
+  border: 2px dashed #9ec5fe;
+  border-radius: 1rem;
+  background-color: #f0f7ff;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.dropzone.dragover {
+  background-color: #dbeafe;
+  border-color: #3b82f6;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.stat-card {
+  border-radius: 1rem;
+}
+
+footer {
+  background-color: #ffffff;
+}

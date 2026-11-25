@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Dataset - Pneumonia Detection{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-header bg-white border-0 pt-3">
+        <h4 class="card-title mb-0">Dataset Information</h4>
+      </div>
+      <div class="card-body">
+        <h5>Source</h5>
+        <p>The dataset used is the public <a href="https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia" target="_blank" rel="noopener">Chest X-Ray Images (Pneumonia)</a> dataset from Kaggle.</p>
+        <h5>Class names</h5>
+        <p>Binary classification: <strong>NORMAL</strong> and <strong>PNEUMONIA</strong>.</p>
+        <h5>Images per split and class</h5>
+        {% if dataset_info.get('splits') %}
+          {% for split, info in dataset_info.get('splits', {}).items() %}
+            <h6>Split: {{ split }}</h6>
+            <table class="table table-sm table-striped table-bordered">
+              <thead>
+                <tr><th>Class</th><th>Image count</th></tr>
+              </thead>
+              <tbody>
+                {% for cls in dataset_info.get('class_names', []) %}
+                  <tr><td>{{ cls }}</td><td>{{ info.get('counts', {}).get(cls, 0) }}</td></tr>
+                {% endfor %}
+                <tr class="table-light"><td><strong>Total</strong></td><td><strong>{{ info.get('total', 0) }}</strong></td></tr>
+              </tbody>
+            </table>
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-warning">Dataset details are unavailable.</div>
+        {% endif %}
+        <h5>Image preprocessing</h5>
+        <ul>
+          <li>Images are loaded as RGB and resized to 224 x 224 pixels.</li>
+          <li>Pixel values are scaled to the range [0, 1] for the custom CNN.</li>
+          <li>Images for MobileNetV2 are converted using the official MobileNetV2 preprocessing function.</li>
+          <li>Training images receive augmentation (small rotations, flips, zoom).</li>
+          <li>Validation and test images are not augmented.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
